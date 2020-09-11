@@ -111,9 +111,14 @@ class CarController extends Controller
       // Prendo i dati dal form
       $requested_data = $request->all();
 
+      if (isset($requested_data['tags'])) {
+        $car->tags()->sync($requested_data['tags']);
+      } else {
+        $car->tags()->detach();
+      }
+
       // update dell'istanza con i nuovi dati
       $car_updated = $car->update($requested_data);
-
 
       // se avviene l'update torno alla show dell'istanza cambiata
       if ($car_updated) {
