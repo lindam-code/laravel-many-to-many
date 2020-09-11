@@ -84,9 +84,16 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Car $car)
     {
-        //
+        $tags = Tag::all();
+        $users = User::all();
+
+        return view('cars.edit', [
+          'car' => $car,
+          'tags' => $tags,
+          'users' => $users,
+        ]);
     }
 
     /**
@@ -96,9 +103,22 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Car $car)
     {
-        //
+      // Validazione dei dati cambiati nel form
+      $request->validate($this->validationData());
+
+      // Prendo i dati dal form
+      $requested_data = $request->all();
+
+      // update dell'istanza con i nuovi dati
+      $car_updated = $car->update($requested_data);
+
+
+      // se avviene l'update torno alla show dell'istanza cambiata
+      if ($car_updated) {
+        return redirect()->route('cars.show', $car);
+      }
     }
 
     /**

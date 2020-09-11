@@ -2,8 +2,9 @@
 
 <h2> {{ $car->manifacturer}} {{ $car->engine }}</h2>
 <div>
+  Type: 
   @foreach ($car->tags as $tag)
-    <span>Type: {{$tag->name}}</span>
+    <span>{{$tag->name}}</span>
   @endforeach
 </div>
 <ul>
